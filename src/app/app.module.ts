@@ -7,17 +7,23 @@ import { SidebarModule } from './sidebar/sidebar.module';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule} from './shared/navbar/navbar.module';
 
+import { FormsModule } from '@angular/forms';
+
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { UserLoginComponent } from './account/user/login/user-login/user-login.component';
+import { UserRegisterComponent } from './account/user/register/user-register/user-register.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    UserRegisterComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -27,7 +33,9 @@ import { UserLoginComponent } from './account/user/login/user-login/user-login.c
     SidebarModule,
     NavbarModule,
     ToastrModule.forRoot(),
-    FooterModule
+    FooterModule,
+    FormsModule,
+    SweetAlert2Module.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
