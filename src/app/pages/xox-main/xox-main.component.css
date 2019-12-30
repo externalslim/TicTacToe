@@ -4,6 +4,8 @@ h1 {
   td {
     width: 100px;
     height: 100px;
+    font-size: 35px;
+    cursor: pointer;
   }
   table {
     margin: 5px auto;
