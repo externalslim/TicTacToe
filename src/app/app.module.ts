@@ -17,6 +17,7 @@ import { UserLoginComponent } from './account/user/login/user-login/user-login.c
 import { UserRegisterComponent } from './account/user/register/user-register/user-register.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     ToastrModule.forRoot(),
     FooterModule,
     FormsModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
