@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  baseUrl: '',
+  baseUrl: 'devurl',
   services:{
       login_service: ''
   }

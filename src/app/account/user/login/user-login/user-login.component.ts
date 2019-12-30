@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {LoginService} from '../../../../services/account/login.service'
+import { UserModel } from 'app/models/usermodel';
 
 @Component({
   selector: 'app-user-login',
@@ -10,6 +11,7 @@ export class UserLoginComponent implements OnInit {
 
   public email: string;
   public password: string;
+  public userModel: UserModel = <UserModel>{};
   constructor(private router: Router, private login_service: LoginService) { }
 
   ngOnInit() {
@@ -17,7 +19,10 @@ export class UserLoginComponent implements OnInit {
 
   public Login(){
     if (this.EmailValidation(this.email) && this.password.length > 0) {
-      var response = this.login_service.Login(this.email, this.password);
+      this.userModel.email = this.email;
+      this.userModel.password = this.password;
+      console.log(this.userModel);
+      var response = this.login_service.Login(this.userModel);
       if (response) {
         this.router.navigate(['/xox-main']);
       } else {

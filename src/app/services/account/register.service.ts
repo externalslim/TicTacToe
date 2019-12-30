@@ -6,22 +6,16 @@ import { UserModel } from 'app/models/usermodel';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
-
+export class RegisterService {
+  
   private baseUrl: string;
-  constructor(private httpClient: HttpClient) { 
+  constructor(private httpClient: HttpClient) {
     this.baseUrl = environment.baseUrl;
     console.log(this.baseUrl);
-  }
+   }
 
-  Login(userModel: UserModel) : boolean{
-    if (userModel.email === 'a@a.com' && userModel.password === '1') {
-      return true;      
-    }
-    else {
-      return false;
-    }
-  }
-
-
+   Register(userModel: UserModel): boolean {
+     console.log(userModel);
+     return true;
+   }
 }
