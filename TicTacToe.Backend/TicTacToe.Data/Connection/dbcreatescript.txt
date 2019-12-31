@@ -1,0 +1,55 @@
+﻿USE [TicTacToe]
+GO
+/****** Object:  Table [dbo].[Channel]    Script Date: 31.12.2019 14:29:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Channel](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](10) NOT NULL,
+ CONSTRAINT [PK_Channel] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Room]    Script Date: 31.12.2019 14:29:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Room](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[HomeUser] [int] NOT NULL,
+	[AwayUser] [int] NOT NULL,
+	[GameType] [int] NULL,
+	[Winner] [int] NULL,
+	[RoomId] [int] NOT NULL,
+	[CreatedDate] [datetime] NOT NULL,
+ CONSTRAINT [PK_Room] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Users]    Script Date: 31.12.2019 14:29:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Users](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Nickname] [nvarchar](10) NULL,
+	[Email] [nvarchar](50) NULL,
+	[Password] [nvarchar](10) NULL,
+	[ChannelId] [int] NULL,
+	[WinRate] [decimal](18, 2) NULL,
+	[CreatedDate] [datetime] NOT NULL,
+	[IsDeleted] [bit] NOT NULL,
+ CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
