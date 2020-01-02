@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { RegisterService } from 'app/services/account/register.service';
 import { UserModel } from 'app/models/usermodel';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-user-register',
@@ -11,6 +12,7 @@ import { UserModel } from 'app/models/usermodel';
 })
 export class UserRegisterComponent implements OnInit {
 
+  public nickname: string;
   public email: string;
   public password: string;
   public passwordValidate: string;
@@ -25,29 +27,34 @@ export class UserRegisterComponent implements OnInit {
     if (this.EmailValidation(this.email) && this.password === this.passwordValidate) {
       this.userModel.email = this.email;
       this.userModel.password = this.password;
-      var response = this.register_service.Register(this.userModel);
-      if (response) {
-        Swal.fire({
-          title: 'Register',
-          text: 'Register Complete',
-          icon: 'success',
-          showCancelButton: false,
-          confirmButtonText: 'Continue!',
-        }).then((result) => {
-          if (result.value) {
-            this.router.navigate(['/user-login']);
-          }
-        })
-      }
-      else {
-        Swal.fire({
-          title: 'Register',
-          text: 'Not Valid!',
-          icon: 'warning',
-          showCancelButton: false,
-          confirmButtonText: 'Retry!'
-        })
-      }
+      this.userModel.nickname = this.nickname;
+      this.userModel.channelId = environment.channels.web;
+      this.register_service.Register(this.userModel).then(response => {
+        console.log(response);
+        console.log(response.id);
+        if (response.id == 0) {
+          Swal.fire({
+            title: 'Register',
+            text: 'Exist User!',
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonText: 'Retry!'
+          })
+        }
+        else {
+          Swal.fire({
+            title: 'Register',
+            text: 'Register Complete',
+            icon: 'success',
+            showCancelButton: false,
+            confirmButtonText: 'Continue!',
+          }).then((result) => {
+            if (result.value) {
+              this.router.navigate(['/user-login']);
+            }
+          })
+        }
+      });
     }
   }
 
