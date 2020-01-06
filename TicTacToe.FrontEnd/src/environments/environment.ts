@@ -6,6 +6,7 @@ export const environment = {
         _base: '/api/User/',
         _getUserList: 'GetUserList',
         _getUserById: 'GetUserById',
+        _getUserByNicknameAndPassword: "GetUserByNicknameAndPassword",
         _insert: 'Insert',
         _update: 'Update',
         _delete: 'Delete'
