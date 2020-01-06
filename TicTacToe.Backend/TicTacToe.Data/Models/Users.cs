@@ -12,13 +12,8 @@ namespace TicTacToe.Data.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public int ChannelId { get; set; }
-        public double WinRate { get; set; }
+        public decimal WinRate { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
-        public Users()
-        {
-            CreatedDate = DateTime.Now;
-            IsDeleted = false;
-        }
     }
 }

@@ -9,6 +9,7 @@ namespace TicTacToe.Service.UserService
     {
         List<Users> GetUserList();
         Users GetUserById(Users input);
+        Users GetUserByNicknameAndPassword(Users input);
         Users Insert(Users input);
         Users Update(Users input);
         bool Delete(int id);

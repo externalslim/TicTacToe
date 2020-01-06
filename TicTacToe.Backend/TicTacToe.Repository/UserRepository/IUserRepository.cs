@@ -9,6 +9,7 @@ namespace TicTacToe.Repository.UserRepository
     {
         List<Users> GetUserList();
         Users GetUserById(Users input);
+        Users GetUserByNicknameAndPassword(Users input);
         int Insert(Users input);
         Users Update(Users input);
         bool Delete(int id);

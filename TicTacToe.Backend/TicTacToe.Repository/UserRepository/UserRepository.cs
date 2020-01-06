@@ -23,50 +23,99 @@ namespace TicTacToe.Repository.UserRepository
 
         public List<Users> GetUserList()
         {
-            using (IDbConnection dbConnection = _connection)
+            try
             {
-                string query = @"SELECT * FROM Users";
-                var userList = dbConnection.Query<Users>(query).ToList();
-                return userList;
+                using (IDbConnection dbConnection = _connection)
+                {
+                    string query = @"SELECT * FROM Users";
+                    var userList = dbConnection.Query<Users>(query).ToList();
+                    return userList;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public Users GetUserByNicknameAndPassword(Users input)
+        {
+            try
+            {
+                using (IDbConnection dbConnection = _connection)
+                {
+                    string query = @"SELECT Id FROM Users WHERE Nickname = @Nickname AND Password = @Password AND IsDeleted = 0";
+                    var dynamicParameter = new DynamicParameters();
+                    dynamicParameter.Add("@Nickname", input.Nickname);
+                    dynamicParameter.Add("@Password", input.Password);
+                    var user = dbConnection.Query<Users>(query, dynamicParameter).SingleOrDefault();
+                    return user;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public Users GetUserById(Users input)
         {
-            using (IDbConnection dbConnection = _connection)
+            try
             {
-                string query = @"SELECT * FROM Users WHERE Id = @Id";
-                var dynamicParameter = new DynamicParameters();
-                dynamicParameter.Add("@Id", input.Id);
-                var user = dbConnection.Query<Users>(query, dynamicParameter).SingleOrDefault();
-                return user;
+                using (IDbConnection dbConnection = _connection)
+                {
+                    string query = @"SELECT * FROM Users WHERE Id = @Id";
+                    var dynamicParameter = new DynamicParameters();
+                    dynamicParameter.Add("@Id", input.Id);
+                    var user = dbConnection.Query<Users>(query, dynamicParameter).SingleOrDefault();
+                    return user;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
         public int Insert(Users input)
         {
-            using (IDbConnection dbConnection = _connection)
+            try
             {
-                string query = @"INSERT INTO Users
-                                (Nickname,Email,Password,ChannelId,WinRate,CreatedDate,IsDeleted)
-                                VALUES
-                                (@Nickname,@Email,@Password,@ChannelId)
-                                 SELECT CAST(SCOPE_IDENTITY() as int)";
+                using (IDbConnection dbConnection = _connection)
+                {
+                    string query = @"IF NOT EXISTS(select Id from Users WHERE Email = @Email OR Nickname = @Nickname)
+                                    BEGIN
+                                    INSERT INTO Users
+                                    (Nickname,Email,Password,ChannelId,WinRate)
+                                    VALUES
+                                    (@Nickname,@Email,@Password,@ChannelId,@WinRate)
+                                     SELECT CAST(SCOPE_IDENTITY() as int)
+                                     END
+                                    ELSE
+                                    SELECT 0";
 
-                var dynamicParameter = new DynamicParameters();
-                dynamicParameter.Add("@Nickname", input.Nickname);
-                dynamicParameter.Add("@Email", input.Email);
-                dynamicParameter.Add("@Password", input.Password);
-                dynamicParameter.Add("@ChannelId", input.ChannelId);
-                var scopeId = dbConnection.Query<int>(query, dynamicParameter).Single();
-                return scopeId;
+                    var dynamicParameter = new DynamicParameters();
+                    dynamicParameter.Add("@Nickname", input.Nickname);
+                    dynamicParameter.Add("@Email", input.Email);
+                    dynamicParameter.Add("@Password", input.Password);
+                    dynamicParameter.Add("@ChannelId", input.ChannelId);
+                    dynamicParameter.Add("@WinRate", input.WinRate);
+                    var scopeId = dbConnection.Query<int>(query, dynamicParameter).Single();
+                    return scopeId;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public Users Update(Users input)
         {
-            using (IDbConnection dbConnection = _connection)
+            try
             {
-                string query = @"UPDATE Users SET
+                using (IDbConnection dbConnection = _connection)
+                {
+                    string query = @"UPDATE Users SET
                                 Nickname = @Nickname ,
                                 Email = @Email ,
                                 Password = @Password,
@@ -76,40 +125,44 @@ namespace TicTacToe.Repository.UserRepository
                                 WHERE Id = @Id
                                 SELECT * FROM Users WHERE Id = @Id";
 
-                var dynamicParameter = new DynamicParameters();
-                dynamicParameter.Add("@Nickname", input.Nickname);
-                dynamicParameter.Add("@Email", input.Email);
-                dynamicParameter.Add("@Password", input.Password);
-                dynamicParameter.Add("@ChannelId", input.ChannelId);
-                dynamicParameter.Add("@WinRate", input.WinRate);
-                dynamicParameter.Add("@IsDeleted", input.IsDeleted);
-                dynamicParameter.Add("@Id", input.Id);
-                var user = dbConnection.Query<Users>(query, dynamicParameter).SingleOrDefault();
-                return user;
+                    var dynamicParameter = new DynamicParameters();
+                    dynamicParameter.Add("@Nickname", input.Nickname);
+                    dynamicParameter.Add("@Email", input.Email);
+                    dynamicParameter.Add("@Password", input.Password);
+                    dynamicParameter.Add("@ChannelId", input.ChannelId);
+                    dynamicParameter.Add("@WinRate", input.WinRate);
+                    dynamicParameter.Add("@IsDeleted", input.IsDeleted);
+                    dynamicParameter.Add("@Id", input.Id);
+                    var user = dbConnection.Query<Users>(query, dynamicParameter).SingleOrDefault();
+                    return user;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public bool Delete(int id)
         {
-            using (IDbConnection dbConnection = _connection)
+            try
             {
-                string query = @"DELETE FROM Users WHERE Id = @Id
-                                 SELECT COUNT(Id) FROM Channel WHERE Id = @Id";
-
-                var dynamicParameter = new DynamicParameters();
-                dynamicParameter.Add("@Id", id);
-                var channel = dbConnection.Query<int>(query, dynamicParameter).SingleOrDefault();
-                if (channel == 0)
+                using (IDbConnection dbConnection = _connection)
                 {
+                    string query = @"UPDATE Users SET IsDeleted = true
+                                 WHERE Id = @Id
+                                 SELECT COUNT(Id) FROM Users WHERE Id = @Id";
+
+                    var dynamicParameter = new DynamicParameters();
+                    dynamicParameter.Add("@Id", id);
+                    var user = dbConnection.Query<int>(query, dynamicParameter).SingleOrDefault();
                     return true;
                 }
+            }
+            catch (Exception)
+            {
                 return false;
             }
         }
-
-       
-    
-
-     
     }
 }

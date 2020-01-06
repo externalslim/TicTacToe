@@ -9,14 +9,13 @@ namespace TicTacToe.Data.Models
     {
         public int Id { get; set; }
         public int HomeUser { get; set; }
-        public int AwayUser { get; set; }
+        public int? AwayUser { get; set; }
         public int GameType { get; set; }
         public int? Winner { get; set; }
+        public int? Looser { get; set; }
         public int RoomId { get; set; }
-        public DateTime CreatedDate { get; private set; }
-        public Room()
-        {
-            CreatedDate = DateTime.Now;
-        }
+        public bool IsDeleted { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }

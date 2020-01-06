@@ -23,68 +23,103 @@ namespace TicTacToe.Repository.ChannelRepository
 
         public Channel GetChannelById(Channel input)
         {
-            using (IDbConnection dbConnection = _connection)
+            try
             {
-                string query = @"SELECT * FROM Channel WHERE Id = @Id" + input.Id;
-                var channel = dbConnection.QueryFirstOrDefault<Channel>(query);
-                return channel;
+                using (IDbConnection dbConnection = _connection)
+                {
+                    string query = @"SELECT * FROM Channel WHERE Id = @Id" + input.Id;
+                    var channel = dbConnection.QueryFirstOrDefault<Channel>(query);
+                    return channel;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public List<Channel> GetChannelList()
         {
-            using (IDbConnection dbConnection = _connection)
+            try
             {
-                string query = @"SELECT * FROM Channel";
-                var channelList = dbConnection.Query<Channel>(query).ToList();
-                return channelList;
+                using (IDbConnection dbConnection = _connection)
+                {
+                    string query = @"SELECT * FROM Channel";
+                    var channelList = dbConnection.Query<Channel>(query).ToList();
+                    return channelList;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public int Insert(Channel input)
         {
-            using (IDbConnection dbConnection = _connection)
+            try
             {
-                string query = @"INSERT INTO Channel(Name)VALUES(@Name)
+                using (IDbConnection dbConnection = _connection)
+                {
+                    string query = @"INSERT INTO Channel(Name)VALUES(@Name)
                                  SELECT CAST(SCOPE_IDENTITY() as int)";
 
-                var dynamicParameter = new DynamicParameters();
-                dynamicParameter.Add("@Name", input.Name);
-                var scopeId = dbConnection.Query<int>(query, dynamicParameter).Single();
-                return scopeId;
+                    var dynamicParameter = new DynamicParameters();
+                    dynamicParameter.Add("@Name", input.Name);
+                    var scopeId = dbConnection.Query<int>(query, dynamicParameter).Single();
+                    return scopeId;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public Channel Update(Channel input)
         {
-            using (IDbConnection dbConnection = _connection)
+            try
             {
-                string query = @"UPDATE Channel SET Name = @Name WHERE Id = @Id
+                using (IDbConnection dbConnection = _connection)
+                {
+                    string query = @"UPDATE Channel SET Name = @Name WHERE Id = @Id
                                  SELECT * FROM Channel WHERE Id = @Id";
 
-                var dynamicParameter = new DynamicParameters();
-                dynamicParameter.Add("@Id", input.Id);
-                dynamicParameter.Add("@Name", input.Name);
-                var channel = dbConnection.Query<Channel>(query, dynamicParameter).SingleOrDefault();
-                return channel;
+                    var dynamicParameter = new DynamicParameters();
+                    dynamicParameter.Add("@Id", input.Id);
+                    dynamicParameter.Add("@Name", input.Name);
+                    var channel = dbConnection.Query<Channel>(query, dynamicParameter).SingleOrDefault();
+                    return channel;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public bool Delete(int id)
         {
-            using (IDbConnection dbConnection = _connection)
+            try
             {
-                string query = @"DELETE FROM Channel WHERE Id = @Id
+                using (IDbConnection dbConnection = _connection)
+                {
+                    string query = @"DELETE FROM Channel WHERE Id = @Id
                                  SELECT COUNT(Id) FROM Channel WHERE Id = @Id";
 
-                var dynamicParameter = new DynamicParameters();
-                dynamicParameter.Add("@Id", id);
-                var channel = dbConnection.Query<int>(query, dynamicParameter).SingleOrDefault();
-                if (channel == 0)
-                {
-                    return true;
+                    var dynamicParameter = new DynamicParameters();
+                    dynamicParameter.Add("@Id", id);
+                    var channel = dbConnection.Query<int>(query, dynamicParameter).SingleOrDefault();
+                    if (channel == 0)
+                    {
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

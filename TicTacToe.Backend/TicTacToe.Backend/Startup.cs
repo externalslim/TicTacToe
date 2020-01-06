@@ -10,7 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TicTacToe.Repository.ChannelRepository;
+using TicTacToe.Repository.UserRepository;
 using TicTacToe.Service.ChannelService;
+using TicTacToe.Service.UserService;
 
 namespace TicTacToe.Backend
 {
@@ -27,9 +29,12 @@ namespace TicTacToe.Backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            services.AddCors();
             services.AddTransient<IChannelRepository, ChannelRepository>();
             services.AddTransient<IChannelService, ChannelService>();
+
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserService, UserService>();
 
         }
 
@@ -40,6 +45,8 @@ namespace TicTacToe.Backend
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseMvc();
         }

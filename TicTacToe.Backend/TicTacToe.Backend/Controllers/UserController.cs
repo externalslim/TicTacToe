@@ -16,16 +16,22 @@ namespace TicTacToe.Backend.Controllers
         private readonly IUserService _userService;
         public UserController(IUserService userService) => _userService = userService;
 
-        [HttpGet]
+        [HttpPost]
         public List<Users> GetUserList()
         {
             return _userService.GetUserList();
         }
 
-        [HttpGet]
+        [HttpPost]
         public Users GetUserById(Users input)
         {
             return _userService.GetUserById(input);
+        }
+
+        [HttpPost]
+        public Users GetUserByNicknameAndPassword(Users input)
+        {
+            return _userService.GetUserByNicknameAndPassword(input);
         }
 
         [HttpPost]

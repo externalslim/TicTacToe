@@ -14,8 +14,8 @@ namespace TicTacToe.Backend.Controllers
     public class ChannelController : ControllerBase
     {
         private IChannelService _channelService;
-        public ChannelController(IChannelService channelService) =>  _channelService = channelService;
-        
+        public ChannelController(IChannelService channelService) => _channelService = channelService;
+
 
         [HttpGet]
         public List<Channel> GetChannelList()

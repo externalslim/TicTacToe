@@ -21,8 +21,12 @@ namespace TicTacToe.Service.UserService
 
         public Users GetUserById(Users input)
         {
-            var Users = _userRepository.GetUserById(input);
-            return Users;
+            return _userRepository.GetUserById(input);
+        }
+
+        public Users GetUserByNicknameAndPassword(Users input)
+        {
+            return _userRepository.GetUserByNicknameAndPassword(input);
         }
 
         public Users Insert(Users input)
@@ -31,6 +35,10 @@ namespace TicTacToe.Service.UserService
             if (scopeId > 0)
             {
                 input.Id = scopeId;
+            }
+            else
+            {
+                input = new Users();
             }
             return input;
         }
